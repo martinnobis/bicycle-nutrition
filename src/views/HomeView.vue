@@ -176,12 +176,27 @@
           allowfullscreen
         ></iframe>
       </details>
+      <details>
+        <summary>How do I contact the webmaster?</summary>
+        <button type="button" class="btn btn-outline-primary" @click="() => (showContactForm = true)">Contact</button>
+      </details>
+      <Teleport to="body">
+        <Transition name="fade">
+          <div v-if="showContactForm" class="modal-bg"></div>
+        </Transition>
+        <Transition name="slide-fade">
+          <ContactForm v-if="showContactForm" @close="showContactForm = false" />
+        </Transition>
+      </Teleport>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import ContactForm from '@/components/ContactForm.vue';
+
+const showContactForm = ref(false);
 
 const workoutHours = ref(3);
 const carbGoal = ref(60);
@@ -351,5 +366,44 @@ summary {
 
 details {
   padding: 0.5rem;
+}
+
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+}
+
+.btn {
+  margin: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #1fa3e1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-color: #4eadda;
+}
+
+.btn:active {
+  background-color: #046490;
+}
+
+.btn.cancel {
+  background-color: white;
+  border: 1px solid grey;
+  color: grey;
+}
+
+.btn.cancel:hover {
+  background-color: #efefef;
 }
 </style>
